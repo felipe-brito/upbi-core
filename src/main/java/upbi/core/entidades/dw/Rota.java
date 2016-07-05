@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import upbi.core.interfaces.BeanDW;
 
 /**
  *
@@ -22,7 +23,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @TableGenerator(allocationSize = 1,initialValue = 1, name = "rota_seq")
-public class Rota implements Serializable{
+public class Rota implements Serializable, BeanDW{
     
     @Id
     @GeneratedValue(generator = "rota_seq", strategy = GenerationType.TABLE)    
@@ -112,6 +113,11 @@ public class Rota implements Serializable{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Long getIdBean() {
+        return id;
     }
     
 }

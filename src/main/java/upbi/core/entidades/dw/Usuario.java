@@ -10,7 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.TableGenerator;
+import upbi.core.queries.NamedQueryUsuario;
 
 /**
  *
@@ -18,6 +21,9 @@ import javax.persistence.TableGenerator;
  */
 @Entity
 @TableGenerator(allocationSize = 1,initialValue = 1, name = "usuario_seq")
+@NamedQueries(value = {
+    @NamedQuery(name = NamedQueryUsuario.LOGIN , query = "SELECT u FROM Usuario u WHERE u.email=:email AND u.senha=:senha AND u.ativo=true")
+})
 public class Usuario implements Serializable, Comparable<Usuario>{
     
     @Id
@@ -26,8 +32,6 @@ public class Usuario implements Serializable, Comparable<Usuario>{
     private String nome;
     @Column(unique = true)
     private String email;
-    @Column(unique = true)
-    private String login;
     private String senha;
     private Boolean ativo;
 
@@ -35,10 +39,9 @@ public class Usuario implements Serializable, Comparable<Usuario>{
         this.ativo = true;
     }
 
-    public Usuario(String nome, String email, String login, String senha) {
+    public Usuario(String nome, String email, String senha) {
         this.nome = nome;
         this.email = email;
-        this.login = login;
         this.senha = senha;
         this.ativo = true;
     }
@@ -65,14 +68,6 @@ public class Usuario implements Serializable, Comparable<Usuario>{
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getSenha() {

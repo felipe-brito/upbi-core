@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import upbi.core.interfaces.BeanDW;
 
 /**
  *
@@ -21,7 +22,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @TableGenerator(allocationSize = 1,initialValue = 1, name = "periodo_seq")
-public class Periodo implements Serializable{
+public class Periodo implements Serializable, BeanDW{
     
     @Id
     @GeneratedValue(generator = "periodo_seq", strategy = GenerationType.TABLE)
@@ -126,6 +127,11 @@ public class Periodo implements Serializable{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Long getIdBean() {
+        return id;
     }
     
 }

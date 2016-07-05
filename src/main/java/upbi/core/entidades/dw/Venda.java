@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 //import javax.persistence.ParameterMode;
 //import javax.persistence.StoredProcedureParameter;
 import javax.persistence.TableGenerator;
+import upbi.core.interfaces.BeanDW;
 
 /**
  *
@@ -57,7 +58,7 @@ import javax.persistence.TableGenerator;
 //        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
 //    })
 //})
-public class Venda implements Serializable {
+public class Venda implements Serializable, BeanDW {
 
     @Id
     @GeneratedValue(generator = "venda_seq", strategy = GenerationType.TABLE)
@@ -290,6 +291,11 @@ public class Venda implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Long getIdBean() {
+        return id;
     }
     
 }
