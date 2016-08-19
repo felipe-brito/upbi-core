@@ -7,12 +7,15 @@ package upbi.core.entidades.dw;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.TableGenerator;
+import upbi.core.enumeracao.NivelType;
 import upbi.core.queries.NamedQueryUsuario;
 
 /**
@@ -22,7 +25,8 @@ import upbi.core.queries.NamedQueryUsuario;
 @Entity
 @TableGenerator(allocationSize = 1,initialValue = 1, name = "usuario_seq")
 @NamedQueries(value = {
-    @NamedQuery(name = NamedQueryUsuario.LOGIN , query = "SELECT u FROM Usuario u WHERE u.email=:email AND u.senha=:senha AND u.ativo=true")
+    @NamedQuery(name = NamedQueryUsuario.LOGIN , query = "SELECT u FROM Usuario u WHERE u.email=:email AND u.senha=:senha AND u.ativo=true"),
+    @NamedQuery(name = NamedQueryUsuario.EMAIL_DISPONIVEL, query = "SELECT u FROM Usuario u WHERE u.email=:email")
 })
 public class Usuario implements Serializable, Comparable<Usuario>{
     
@@ -34,16 +38,19 @@ public class Usuario implements Serializable, Comparable<Usuario>{
     private String email;
     private String senha;
     private Boolean ativo;
+    @Enumerated(EnumType.ORDINAL)
+    private NivelType nivelType;
 
     public Usuario() {
         this.ativo = true;
     }
 
-    public Usuario(String nome, String email, String senha) {
+    public Usuario(String nome, String email, String senha, NivelType nivelType) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.ativo = true;
+        this.nivelType = nivelType;
     }
 
     public Long getId() {
@@ -84,6 +91,14 @@ public class Usuario implements Serializable, Comparable<Usuario>{
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public NivelType getNivelType() {
+        return nivelType;
+    }
+
+    public void setNivelType(NivelType nivelType) {
+        this.nivelType = nivelType;
     }
     
     @Override

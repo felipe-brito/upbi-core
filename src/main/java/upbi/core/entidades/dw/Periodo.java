@@ -8,24 +8,27 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.TableGenerator;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 import upbi.core.interfaces.BeanDW;
+import upbi.core.queries.NamedQueryPeriodo;
 
 /**
  *
  * @author Felipe
  */
 @Entity
-@TableGenerator(allocationSize = 1,initialValue = 1, name = "periodo_seq")
+@XmlRootElement
+@NamedQueries(value = {
+    @NamedQuery(name = NamedQueryPeriodo.RECUPERA_ANOS_CADASTRADOS, query = "SELECT DISTINCT p.ano FROM Periodo p ORDER BY p.ano DESC")
+})
 public class Periodo implements Serializable, BeanDW{
     
     @Id
-    @GeneratedValue(generator = "periodo_seq", strategy = GenerationType.TABLE)
     private Long id;
     @Temporal(TemporalType.DATE)
     private Date dataCompleta;

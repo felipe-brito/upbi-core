@@ -9,12 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 import upbi.core.interfaces.BeanDW;
 
 /**
@@ -22,11 +20,10 @@ import upbi.core.interfaces.BeanDW;
  * @author Felipe
  */
 @Entity
-@TableGenerator(allocationSize = 1,initialValue = 1, name = "gerente_seq")
+@XmlRootElement
 public class Gerente implements Serializable, BeanDW{
     
     @Id
-    @GeneratedValue(generator = "gerente_seq", strategy = GenerationType.TABLE)    
     private Long id;
     private Integer codGerente;
     private String nome;
@@ -35,16 +32,18 @@ public class Gerente implements Serializable, BeanDW{
     private Date dataModificar;
     @Temporal(TemporalType.TIME)
     private Calendar horaModificar;
-
+    private Boolean ativo;
+    
     public Gerente() {
     }
 
-    public Gerente(Integer codGerente, String nome, String nomeReduzido, Date dataModificar, Calendar horaModificacao) {
+    public Gerente(Integer codGerente, String nome, String nomeReduzido, Date dataModificar, Calendar horaModificacao, Boolean ativo) {
         this.codGerente = codGerente;
         this.nome = nome;
         this.nomeReduzido = nomeReduzido;
         this.dataModificar = dataModificar;
         this.horaModificar = horaModificacao;
+        this.ativo = ativo;
     }
 
     public Long getId() {
@@ -104,6 +103,14 @@ public class Gerente implements Serializable, BeanDW{
         return hash;
     }
 
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

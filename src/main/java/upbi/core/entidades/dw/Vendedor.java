@@ -9,24 +9,27 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.TableGenerator;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 import upbi.core.interfaces.BeanDW;
+import upbi.core.queries.NamedProcedureDW;
 
 /**
  *
  * @author Felipe
  */
 @Entity
-@TableGenerator(allocationSize = 1,initialValue = 1, name = "vendedor_seq")
+@XmlRootElement
+@NamedStoredProcedureQueries(value = {
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.SOMATORIO_METAS_VENDEDORES, procedureName = "calcularMetaVendedoresMes")
+})
 public class Vendedor implements Serializable, BeanDW {
 
     @Id
-    @GeneratedValue(generator = "vendedor_seq", strategy = GenerationType.TABLE)    
     private Long id;
     private Integer codVendedor;
     private Integer codSupervisor;
@@ -37,11 +40,12 @@ public class Vendedor implements Serializable, BeanDW {
     private Date dataModificacao;
     @Temporal(TemporalType.TIME)
     private Calendar horaModificacao;
+    private Boolean ativo;
     
     public Vendedor() {
     }
 
-    public Vendedor(Integer codVendedor, String nome, String nomeReduzido, Double meta, Integer codSupervisor, Date dataMoficacao, Calendar horaModificacao) {
+    public Vendedor(Integer codVendedor, String nome, String nomeReduzido, Double meta, Integer codSupervisor, Date dataMoficacao, Calendar horaModificacao, Boolean ativo) {
         this.codVendedor = codVendedor;
         this.nome = nome;
         this.nomeReduzido = nomeReduzido;
@@ -49,6 +53,7 @@ public class Vendedor implements Serializable, BeanDW {
         this.codSupervisor = codSupervisor;
         this.dataModificacao = dataMoficacao;
         this.horaModificacao = horaModificacao;
+        this.ativo = ativo;
     }
     
     public Long getId() {
@@ -113,6 +118,14 @@ public class Vendedor implements Serializable, BeanDW {
 
     public void setHoraModificacao(Calendar horaModificacao) {
         this.horaModificacao = horaModificacao;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
     
     @Override

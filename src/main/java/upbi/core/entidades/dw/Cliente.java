@@ -9,24 +9,27 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.TableGenerator;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 import upbi.core.interfaces.BeanDW;
+import upbi.core.queries.NamedQueryCliente;
 
 /**
  *
  * @author Felipe
  */
 @Entity
-@TableGenerator(allocationSize = 1,initialValue = 1, name = "cliente_seq")
+@XmlRootElement
+@NamedStoredProcedureQueries(value = {
+    @NamedStoredProcedureQuery(name = NamedQueryCliente.CLIENTES_ATIVOS, procedureName = "calculartotalclientesativos")
+})
 public class Cliente implements Serializable, BeanDW {
 
     @Id
-    @GeneratedValue(generator = "cliente_seq", strategy = GenerationType.TABLE)
     private Long id;
     private Integer codCliente;
     private String nome;
@@ -49,6 +52,12 @@ public class Cliente implements Serializable, BeanDW {
     public Cliente() {
     }
 
+    public Cliente(String dataCadastramento, String dataModificacao, String horaModificacao){
+        System.out.println("Data: "+ dataCadastramento);
+        System.out.println("Data Modificacao: "+ dataModificacao);
+        System.out.println("Hora: "+ horaModificacao);
+    }
+    
     public Cliente(Integer codCliente, String nome, String nomeReduzido, Boolean ativo, Integer codVendedor, String tipoLogradouro, String logradouro, String numero, String bairro, String cidade, String uf, Date dataCadastramento, Date dataModificacao, Calendar horaModificacao) {
         this.codCliente = codCliente;
         this.nome = nome;

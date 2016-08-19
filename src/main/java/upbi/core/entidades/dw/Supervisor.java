@@ -9,12 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 import upbi.core.interfaces.BeanDW;
 
 /**
@@ -22,11 +20,10 @@ import upbi.core.interfaces.BeanDW;
  * @author Felipe
  */
 @Entity
-@TableGenerator(allocationSize = 1,initialValue = 1, name = "supervisor_seq")
+@XmlRootElement
 public class Supervisor implements Serializable, BeanDW{
     
     @Id
-    @GeneratedValue(generator = "supervisor_seq", strategy = GenerationType.TABLE)    
     private Long id;
     private Integer codSupervisor;
     private Integer codGerente;
@@ -36,17 +33,19 @@ public class Supervisor implements Serializable, BeanDW{
     private Date dataModificacao;
     @Temporal(TemporalType.TIME)
     private Calendar horaModificacao;
+    private Boolean ativo;
 
     public Supervisor() {
     }
 
-    public Supervisor(Integer codSupervisor, String nome, String nomeReduzido, Integer codGerente, Date dataModificacao, Calendar horaModificacao) {
+    public Supervisor(Integer codSupervisor, String nome, String nomeReduzido, Integer codGerente, Date dataModificacao, Calendar horaModificacao, Boolean ativo) {
         this.codSupervisor = codSupervisor;
         this.nome = nome;
         this.nomeReduzido = nomeReduzido;
         this.codGerente = codGerente;
         this.dataModificacao = dataModificacao;
         this.horaModificacao = horaModificacao;
+        this.ativo = ativo;
     }
 
     public Long getId() {
@@ -103,6 +102,14 @@ public class Supervisor implements Serializable, BeanDW{
 
     public void setHoraModificacao(Calendar horaModificacao) {
         this.horaModificacao = horaModificacao;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
     
     @Override

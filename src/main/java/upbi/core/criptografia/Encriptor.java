@@ -58,12 +58,12 @@ public class Encriptor {
         return senhaPlana;
     }
 
-//    public boolean checkPassword(String senhaPlana, String senhaEncriptada) {
-//        return encrypt(senhaPlana).equals(senhaEncriptada);
-//    }
+    public boolean checkPassword(String senhaPlana, String senhaEncriptada) {
+        return encrypt(senhaPlana).equals(senhaEncriptada);
+    }
 
     private  byte[] getKey() throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        String redenetKey = "J(*P0RT4L@ML";
+        String redenetKey = "U(*T661fp8";
         MessageDigest md = MessageDigest.getInstance("MD5");
         return md.digest(redenetKey.getBytes("UTF-8"));
     }

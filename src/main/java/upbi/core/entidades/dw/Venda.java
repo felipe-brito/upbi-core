@@ -14,14 +14,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-//import javax.persistence.NamedQueries;
-//import javax.persistence.NamedQuery;
-//import javax.persistence.NamedStoredProcedureQueries;
-//import javax.persistence.NamedStoredProcedureQuery;
-//import javax.persistence.ParameterMode;
-//import javax.persistence.StoredProcedureParameter;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.TableGenerator;
+import javax.xml.bind.annotation.XmlRootElement;
 import upbi.core.interfaces.BeanDW;
+import upbi.core.queries.NamedProcedureDW;
+import upbi.core.queries.NamedQueryCliente;
+import upbi.core.queries.NamedQueryProduto;
 
 /**
  *
@@ -29,35 +33,43 @@ import upbi.core.interfaces.BeanDW;
  */
 @Entity
 @TableGenerator(name = "venda_seq", allocationSize = 1, initialValue = 1)
-//@NamedQueries(value = {
-//    @NamedQuery(name = QuerysNomeadas.LISTAR_VENDAS_POR_ANO, query = "SELECT v FROM Venda v WHERE v.periodo.ano =:ano ORDER BY v.codVenda"),
-//    @NamedQuery(name = QuerysNomeadas.CLIENTES_ATENDIDOS_MES, query = "SELECT COUNT( DISTINCT v.cliente.codCliente ) FROM Venda v WHERE v.periodo.mes =:mes AND v.periodo.ano =:ano"),
-//    @NamedQuery(name = QuerysNomeadas.VENDAS_TOTAIS_ANO, query = "SELECT SUM(v.valorVenda) FROM Venda v WHERE v.periodo.ano =:ano"),
-//    @NamedQuery(name = QuerysNomeadas.LISTAR_PRODUTOS_GRAFICO_COMPARATIVO, query = "SELECT DISTINCT v.produto.descricao, SUM(v.qtdeProdutoVendido), SUM(v.qtdeProdutoDevoldido), (SUM(v.qtdeProdutoVendido) - SUM(v.qtdeProdutoDevoldido)) AS saldo FROM Venda v WHERE v.periodo.ano =:ano GROUP BY v.produto.descricao ")
-//})
-//@NamedStoredProcedureQueries(value = {
-//    @NamedStoredProcedureQuery(name = QuerysNomeadas.PROCEDURE_VENDAS_TOTAIS_MES, procedureName = "calcularValorTotalDasVendasMes", parameters = {
-//        @StoredProcedureParameter(name = "mes", mode = ParameterMode.IN, type = Integer.class),
-//        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
-//    }),
-//    @NamedStoredProcedureQuery(name = QuerysNomeadas.PROCEDURE_CUSTOS_TOTAIS_MES, procedureName = "calcularValorTotalDosCustosMes", parameters = {
-//        @StoredProcedureParameter(name = "mes", mode = ParameterMode.IN, type = Integer.class),
-//        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
-//    }),
-//    @NamedStoredProcedureQuery(name = QuerysNomeadas.PROCEDURE_VENDAS_TOTAIS_DIA, procedureName = "calcularValorTotalDasVendasDia", parameters = {
-//        @StoredProcedureParameter(name = "dia", mode = ParameterMode.IN, type = Integer.class),
-//        @StoredProcedureParameter(name = "mes", mode = ParameterMode.IN, type = Integer.class),
-//        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
-//    }),
-//    @NamedStoredProcedureQuery(name = QuerysNomeadas.PROCEDURE_CUSTOS_TOTAIS_DIA, procedureName = "calcularValorTotalDosCustosDia", parameters = {
-//        @StoredProcedureParameter(name = "dia", mode = ParameterMode.IN, type = Integer.class),
-//        @StoredProcedureParameter(name = "mes", mode = ParameterMode.IN, type = Integer.class),
-//        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
-//    }),
-//    @NamedStoredProcedureQuery(name = QuerysNomeadas.PROCEDURE_VENDA_TOTAIS_ANO, procedureName = "calcularValorTotalDasVendasAno", parameters = {
-//        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
-//    })
-//})
+@NamedQueries(value = {
+    @NamedQuery(name = NamedQueryCliente.CLIENTES_ATENDIDOS_MES, query = "SELECT COUNT( DISTINCT v.cliente.codCliente ) FROM Venda v WHERE v.periodo.mes =:mes AND v.periodo.ano =:ano"),
+    @NamedQuery(name = NamedQueryProduto.LISTAR_PRODUTOS_VENDIDOS_POR_SEMESTRE, query = "SELECT DISTINCT NEW upbi.app.web.business.entidades.vo.ProdutoCurvaABCVO(p.codProduto, p.descricao) FROM Venda v JOIN v.produto p JOIN v.periodo pe WHERE pe.ano=:ano AND pe.semestre=:semestre ORDER BY p.codProduto")
+})
+@NamedStoredProcedureQueries(value = {
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_VENDAS_TOTAIS_MES, procedureName = "calcularValorTotalDasVendasMes", parameters = {
+        @StoredProcedureParameter(name = "mes", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
+    }),
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_CUSTOS_TOTAIS_MES, procedureName = "calcularValorTotalDosCustosMes", parameters = {
+        @StoredProcedureParameter(name = "mes", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
+    }),
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_VENDAS_TOTAIS_DIA, procedureName = "calcularValorTotalDasVendasDia", parameters = {
+        @StoredProcedureParameter(name = "dia", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "mes", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
+    }),
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_CUSTOS_TOTAIS_DIA, procedureName = "calcularValorTotalDosCustosDia", parameters = {
+        @StoredProcedureParameter(name = "dia", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "mes", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
+    }),
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_VENDA_TOTAIS_ANO, procedureName = "calcularValorTotalDasVendasAno", parameters = {
+        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class)
+    }),
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.CALCULAR_VENDAS_TOTAL_LUCRATIVIDADE_POR_SEMESTRE, procedureName = "calcularTotalVendasSemestre", parameters = {
+        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "semestre", mode = ParameterMode.IN, type = Integer.class)
+    }),
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.CALCULAR_VENDAS_TOTAL_PRODUTO_POR_SEMESTRE, procedureName = "calcularTotalVendasProdutoSemestre", parameters = {
+        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "semestre", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "produto", mode = ParameterMode.IN, type = Integer.class)
+    })
+})
+@XmlRootElement
 public class Venda implements Serializable, BeanDW {
 
     @Id

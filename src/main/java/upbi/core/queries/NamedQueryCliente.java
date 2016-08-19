@@ -9,10 +9,10 @@ package upbi.core.queries;
  *
  * @author Felipe de Brito Lira <felipedebritolira@gmail.com>
  */
-public interface NamedQueryUsuario {
+public interface NamedQueryCliente {
     
-    public final String LOGIN = "login";
-    
-    public final String EMAIL_DISPONIVEL = "email.disponivel";
+    public final String CLIENTES_ATIVOS = "clientes.ativos";
+
+    public final String CLIENTES_ATENDIDOS_MES = "clientes.atendidos.mes";
     
 }
