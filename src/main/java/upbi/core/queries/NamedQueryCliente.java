@@ -11,8 +11,6 @@ package upbi.core.queries;
  */
 public interface NamedQueryCliente {
     
-    public final String CLIENTES_ATIVOS = "clientes.ativos";
-
     public final String CLIENTES_ATENDIDOS_MES = "clientes.atendidos.mes";
     
 }

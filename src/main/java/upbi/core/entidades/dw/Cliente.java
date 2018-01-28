@@ -16,7 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import upbi.core.interfaces.BeanDW;
-import upbi.core.queries.NamedQueryCliente;
+import upbi.core.queries.NamedProcedureDW;
 
 /**
  *
@@ -25,7 +25,8 @@ import upbi.core.queries.NamedQueryCliente;
 @Entity
 @XmlRootElement
 @NamedStoredProcedureQueries(value = {
-    @NamedStoredProcedureQuery(name = NamedQueryCliente.CLIENTES_ATIVOS, procedureName = "calculartotalclientesativos")
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_CALCULAR_TOTAL_CLIENTES_ATIVOS, procedureName = "calculartotalclientesativos"),
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_RECUPERAR_ID_CODIGO_NOME_CLIENTES_ATIVOS, procedureName = "recuperanomecodigoclientesativos")
 })
 public class Cliente implements Serializable, BeanDW {
 

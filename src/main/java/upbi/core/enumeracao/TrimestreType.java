@@ -13,7 +13,7 @@ public enum TrimestreType {
     PRIMEIRO("Primeiro"),
     SEGUNDO("Segundo"),
     TERCEIRO("Terceiro"),
-    QUARTO("Quart");
+    QUARTO("Quarto");
     
     private final String valor;
 

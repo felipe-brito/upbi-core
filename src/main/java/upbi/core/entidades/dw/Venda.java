@@ -67,6 +67,16 @@ import upbi.core.queries.NamedQueryProduto;
         @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class),
         @StoredProcedureParameter(name = "semestre", mode = ParameterMode.IN, type = Integer.class),
         @StoredProcedureParameter(name = "produto", mode = ParameterMode.IN, type = Integer.class)
+    }),
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_CALCULAR_VALOR_TOTAL_COMPRA_CLIENTE_POR_SEMESTRE, procedureName = "calcularvalortotalcompraporclientesemestre", parameters = {
+        @StoredProcedureParameter(name = "idcliente", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "variante", mode = ParameterMode.IN, type = Integer.class)
+    }),
+    @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_CALCULAR_VALOR_TOTAL_COMPRA_CLIENTE_POR_TRIMESTRE, procedureName = "calcularvalortotalcompraporclientestrimestre", parameters = {
+        @StoredProcedureParameter(name = "idcliente", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "ano", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "variante", mode = ParameterMode.IN, type = Integer.class)
     })
 })
 @XmlRootElement

@@ -27,4 +27,12 @@ public interface NamedProcedureDW {
     
     public final String CALCULAR_VENDAS_TOTAL_PRODUTO_POR_SEMESTRE = "calcular.vendas.total.lucratividade.produto.por.semestre";
     
+    public final String PROCEDURE_CALCULAR_TOTAL_CLIENTES_ATIVOS = "calcular.total.clientes.ativos";
+    
+    public final String PROCEDURE_RECUPERAR_ID_CODIGO_NOME_CLIENTES_ATIVOS = "recuperar.id.codigo.nome.clientes.ativos";
+    
+    public final String PROCEDURE_CALCULAR_VALOR_TOTAL_COMPRA_CLIENTE_POR_SEMESTRE = "calcular.valor.total.compra.cliente.por.semestre";
+    
+    public final String PROCEDURE_CALCULAR_VALOR_TOTAL_COMPRA_CLIENTE_POR_TRIMESTRE = "calcular.valor.total.compra.cliente.por.trimestre";
+    
 }
