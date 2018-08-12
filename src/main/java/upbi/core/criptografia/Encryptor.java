@@ -22,7 +22,7 @@ import upbi.core.execoes.EncryptorException;
  * Classe responsável por realizar operações de Encriptação, Desencriptação e
  * geradção de HASH
  *
- * @author Claudivan Moreira
+ * @author Felipe Brito
  */
 @NoArgsConstructor
 public class Encryptor {
