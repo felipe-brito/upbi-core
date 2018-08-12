@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package upbi.core.util;
 
-import java.util.Date;
-import upbi.core.entidades.dw.Token;
+import java.time.LocalDateTime;
+import upbi.core.entidades.Token;
 
 /**
  *
@@ -20,7 +14,8 @@ public class TokenUtil {
     public TokenUtil(){}
     
     public Boolean isValido(Token token) {
-        return new Date().getTime() - token.getValidade().getTime() < (60 * token.getDuracaoMinutos() * 1000);
+        
+        return LocalDateTime.now().isAfter(token.getValidade().plusMinutes(token.getDuracaoMinutos()));
     }
     
 }

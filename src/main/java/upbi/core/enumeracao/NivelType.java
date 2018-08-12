@@ -1,8 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package upbi.core.enumeracao;
+
+import lombok.Getter;
 
 /**
  *
@@ -14,14 +12,11 @@ public enum NivelType {
     INTERMEDIARIO("Intermediário"),
     TOTAL("Total");
     
+    @Getter
     private final String valor;
 
     NivelType(String valor) {
         this.valor = valor;
-    }
-
-    public String getValor() {
-        return this.valor;
     }
     
 }

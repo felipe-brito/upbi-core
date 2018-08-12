@@ -2,8 +2,7 @@ package upbi.core.conversor;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import java.io.Serializable;
-import upbi.core.execoes.ConverteJSONException;
+import upbi.core.execoes.JsonConvertException;
 
 /**
  * Conversor de arquivos JSON, esta classe tem a finalidade de prover métodos
@@ -13,12 +12,12 @@ import upbi.core.execoes.ConverteJSONException;
  *
  * @author Felipe de Brito Lira
  */
-public class ConversorJSON implements Serializable {
+public class JsonConvert {
 
     private final Gson gson;
     private final Class classe;
 
-    public ConversorJSON(Class classe) {
+    public JsonConvert(Class classe) {
         this.gson = new Gson();
         this.classe = classe;
     }
@@ -29,7 +28,7 @@ public class ConversorJSON implements Serializable {
      * @param object
      * @return String - representação do objeto
      */
-    public String converteJSON(Object object) {
+    public String toJson(Object object) {
         return this.gson.toJson(object);
     }
 
@@ -39,15 +38,15 @@ public class ConversorJSON implements Serializable {
      *
      * @param json - string de representação do json
      * @return Object - objeto deserializado
-     * @throws ConverteJSONException - exceção lançanda caso a representação do
+     * @throws JsonConvertException - exceção lançanda caso a representação do
      * json não esteja no padrão RFC 4627.
      */
-    public Object converteObject(String json) throws ConverteJSONException {
+    public Object toObject(String json) throws JsonConvertException {
 
         try {
             return this.gson.fromJson(json, this.classe);
         } catch (JsonSyntaxException e) {
-            throw new ConverteJSONException(String.format("Arquivo JSON fora do padrão RFC 4627.\nMensagem: %s", e.getMessage()));
+            throw new JsonConvertException(String.format("Arquivo JSON fora do padrão RFC 4627.\nMensagem: %s", e.getMessage()));
         }
 
     }

@@ -1,31 +1,31 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package upbi.core.enumeracao;
 
+import lombok.Getter;
+import upbi.core.execoes.TypeInvalidoException;
+
 /**
- * 
+ *
  * @author Felipe de Brito Lira <felipedebritolira@gmail.com>
  */
 public enum TrimestreType {
 
-    PRIMEIRO("Primeiro"),
-    SEGUNDO("Segundo"),
-    TERCEIRO("Terceiro"),
-    QUARTO("Quart");
-    
+    PRIMEIRO("Primeiro", 1),
+    SEGUNDO("Segundo", 2),
+    TERCEIRO("Terceiro", 3),
+    QUARTO("Quarto", 4);
+
+    @Getter
     private final String valor;
 
-    TrimestreType(String valor) {
+    @Getter
+    private final Integer codigo;
+
+    TrimestreType(String valor, Integer codigo) {
         this.valor = valor;
+        this.codigo = codigo;
     }
 
-    public String getValor() {
-        return this.valor;
-    }
-
-    public static TrimestreType getType(String valor) {
+    public static TrimestreType getType(String valor) throws TypeInvalidoException {
         switch (valor) {
             case "Primeiro":
                 return TrimestreType.PRIMEIRO;
@@ -36,7 +36,7 @@ public enum TrimestreType {
             case "Quarto":
                 return TrimestreType.QUARTO;
             default:
-                return null;
+                throw new TypeInvalidoException("Não existe um trimestre válido para o valor informado.");
         }
     }
 }
