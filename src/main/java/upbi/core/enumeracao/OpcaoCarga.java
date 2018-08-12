@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package upbi.core.enumeracao;
 
 /**
@@ -19,7 +15,7 @@ public enum OpcaoCarga {
     FORNECEDOR(6),
     ROTA(7),
     PERIODO(8);
-    
+
     private final int valor;
 
     OpcaoCarga(int valor) {
@@ -54,4 +50,5 @@ public enum OpcaoCarga {
                 return null;
         }
     }
+
 }

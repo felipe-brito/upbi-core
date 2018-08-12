@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package upbi.core.geradorToken;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
-import upbi.core.entidades.dw.Token;
-import upbi.core.criptografia.Encriptor;
+import upbi.core.criptografia.Encryptor;
+import upbi.core.entidades.Token;
+import upbi.core.execoes.EncryptorException;
 
 /**
  *
@@ -18,13 +14,13 @@ import upbi.core.criptografia.Encriptor;
  */
 public class TokenGeneretion {
 
-    private final Encriptor encriptor;
+    private final Encryptor encriptor;
 
     public TokenGeneretion() {
-        this.encriptor = new Encriptor();
+        this.encriptor = new Encryptor();
     }
 
-    public Token generator(Map<String, Object> values, Integer duracao) {
+    public Token generator(Map<String, Object> values, Integer duracao) throws EncryptorException {
 
         StringBuilder builder = new StringBuilder();
 
@@ -33,8 +29,8 @@ public class TokenGeneretion {
         }
 
         duracao = duracao <= 0 ? 1 : duracao;
-        
-        return new Token(this.encriptor.encrypt(builder.toString()), new Date(), duracao);
+
+        return new Token(this.encriptor.encrypt(builder.toString()), LocalDateTime.now(), duracao);
 
     }
 
