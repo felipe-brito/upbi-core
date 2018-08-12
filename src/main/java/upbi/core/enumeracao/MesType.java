@@ -1,66 +1,45 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package upbi.core.enumeracao;
 
+import lombok.Getter;
+import upbi.core.execoes.TypeInvalidoException;
+
 /**
- * 
+ *
  * @author Felipe de Brito Lira <felipedebritolira@gmail.com>
  */
 public enum MesType {
 
-    JANEIRO("Janeiro"),
-    FEVEREIRO("Fevereiro"),
-    MARCO("Março"),
-    ABRIL("Abril"),
-    MAIO("Maio"),
-    JUNHO("Junho"),
-    JULHO("Julho"),
-    AGOSTO("Agosto"),
-    SETEMBRO("Setembro"),
-    OUTUBRO("Outubro"),
-    NOVEMBRO("Novembro"),
-    DEZEMBRO("Dezembro");
-    
+    JANEIRO("Janeiro", "JANUARY"),
+    FEVEREIRO("Fevereiro", "FEBRUARY"),
+    MARCO("Março", "MARCH"),
+    ABRIL("Abril", "APRIL"),
+    MAIO("Maio", "MAY"),
+    JUNHO("Junho", "JUNE"),
+    JULHO("Julho", "JULY"),
+    AGOSTO("Agosto", "AUGUST"),
+    SETEMBRO("Setembro", "SEPTEMBER"),
+    OUTUBRO("Outubro", "OCTOBER"),
+    NOVEMBRO("Novembro", "NOVEMBER"),
+    DEZEMBRO("Dezembro", "DECEMBER");
+
+    @Getter
     private final String valor;
 
-    MesType(String valor) {
+    @Getter
+    private final String mesUS;
+
+    MesType(String valor, String mesUS) {
         this.valor = valor;
+        this.mesUS = mesUS;
     }
 
-    public String getValor() {
-        return this.valor;
-    }
-
-    public static MesType getType(String valor) {
-        switch (valor) {
-            case "Janeiro":
-                return MesType.JANEIRO;
-            case "Fevereiro":
-                return MesType.FEVEREIRO;
-            case "Março":
-                return MesType.MARCO;
-            case "Abril":
-                return MesType.ABRIL;
-            case "Maio":
-                return MesType.MAIO;
-            case "Junho":
-                return MesType.JUNHO;
-            case "Julho":
-                return MesType.JULHO;
-            case "Agosto":
-                return MesType.AGOSTO;
-            case "Setembro":
-                return MesType.SETEMBRO;
-            case "Outubro":
-                return MesType.OUTUBRO;
-            case "Novembro":
-                return MesType.NOVEMBRO;
-            case "Dezembro":
-                return MesType.DEZEMBRO;
-            default:
-                return null;
+    public static MesType getType(String valor) throws TypeInvalidoException {
+        for (MesType mesType : MesType.values()) {
+            if (mesType.valor.equalsIgnoreCase(valor)) {
+                return mesType;
+            }
         }
+        throw new TypeInvalidoException("Não existe um mês válido para o valor informado.");
     }
+
 }

@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package upbi.core.util;
 
+import br.com.twsoftware.alfred.object.Objeto;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,8 +22,7 @@ import upbi.core.enumeracao.TrimestreType;
 public class DataUtil {
 
     private Map<Integer, String> mapa;
-    private List<Integer> lista;
-
+    
     public DataUtil() {
         initMapMes();
     }
@@ -55,7 +52,7 @@ public class DataUtil {
      * @return String - representação textual da data informada
      */
     public String formataDataString(Date data, String pattern) {
-        pattern = pattern == null || pattern.equals("") || pattern.trim().isEmpty() ? "dd/MM/yyyy" : pattern;
+        pattern = Objeto.isBlank(pattern) ? "dd/MM/yyyy" : pattern;
         return data == null ? new SimpleDateFormat(pattern).format(new Date()) : new SimpleDateFormat(pattern).format(data);
     }
 
@@ -69,17 +66,8 @@ public class DataUtil {
      * semestre
      */
     public List<Integer> recuperarMesesSemestre(SemestreType semestreType) {
-        lista = new ArrayList();
-        int aux;
-        if (semestreType != null) {
-            if (semestreType == SemestreType.PRIMEIRO) {
-                aux = 6;
-            } else {
-                aux = 12;
-            }
-        } else {
-            aux = 1;
-        }
+        List<Integer> lista = new ArrayList();
+        Integer aux = Objeto.isBlank(semestreType) ? 1 : semestreType.getCodigo();
         for (int i = (aux - 5); i <= aux; i++) {
             lista.add(i);
         }
@@ -97,29 +85,8 @@ public class DataUtil {
      *
      */
     public List<Integer> recuperarMesesTrimestre(TrimestreType trimestreType) {
-        lista = new ArrayList();
-        int aux;
-        if (null != trimestreType) {
-            switch (trimestreType) {
-                case PRIMEIRO:
-                    aux = 1;
-                    break;
-                case SEGUNDO:
-                    aux = 2;
-                    break;
-                case TERCEIRO:
-                    aux = 3;
-                    break;
-                case QUARTO:
-                    aux = 3;
-                    break;
-                default:
-                    aux = 1;
-                    break;
-            }
-        } else {
-            aux = 1;
-        }
+        List<Integer> lista = new ArrayList();
+        Integer aux = Objeto.isBlank(trimestreType) ? 1 : trimestreType.getCodigo();
         for (int i = (aux * 3) - 2; i <= (aux * 3); i++) {
             lista.add(i);
         }
@@ -127,91 +94,33 @@ public class DataUtil {
     }
 
     /**
-     * Este método retorna a representação do dia utilizado o mês e ano
-     * informados.
+     * Este método retorna a representação do dia utilizado o mês
      *
      * @param mes
-     * @param ano
-     * @return int - valor representando o dia do mês informado
+     * @return Integer - valor representando o dia do mês informado
      */
-    public int recuperarDiasMes(MesType mes, Integer ano) {
-        switch (mes) {
-            case JANEIRO:
-                return 31;
-            case FEVEREIRO:
-                if (ano % 4 == 0) {
-                    return 29;
-                } else {
-                    return 28;
-                }
-            case MARCO:
-                return 31;
-            case ABRIL:
-                return 30;
-            case MAIO:
-                return 31;
-            case JUNHO:
-                return 30;
-            case JULHO:
-                return 31;
-            case AGOSTO:
-                return 31;
-            case SETEMBRO:
-                return 30;
-            case OUTUBRO:
-                return 31;
-            case NOVEMBRO:
-                return 30;
-            case DEZEMBRO:
-                return 21;
-            default:
-                return 0;
-        }
+    public Integer recuperarDiasMes(MesType mes) {
+        
+        Month month = Month.valueOf(mes.getMesUS());
+        return month.length(LocalDate.now().isLeapYear());
     }
 
     /**
      * Este método retorna a representação númerica do mês informado.
      *
      * @param mes
-     * @return int - valor representando o mês númerico
+     * @return Integer - valor representando o mês númerico
      */
-    public int recuperarMesNumerico(MesType mes) {
-        switch (mes) {
-            case JANEIRO:
-                return 1;
-            case FEVEREIRO:
-                return 2;
-            case MARCO:
-                return 3;
-            case ABRIL:
-                return 4;
-            case MAIO:
-                return 5;
-            case JUNHO:
-                return 6;
-            case JULHO:
-                return 7;
-            case AGOSTO:
-                return 8;
-            case SETEMBRO:
-                return 9;
-            case OUTUBRO:
-                return 10;
-            case NOVEMBRO:
-                return 11;
-            case DEZEMBRO:
-                return 12;
-            default:
-                return 0;
-        }
+    public Integer recuperarMesNumerico(MesType mes) {
+        return Month.valueOf(mes.getMesUS()).getValue();
     }
 
     private void initMapMes() {
         mapa = new HashMap<>();
-        int i = 1;
+        Integer i = 1;
         for (MesType mesType : MesType.values()) {
             mapa.put(i++, mesType.getValor());
         }
     }
-
+    
 }
