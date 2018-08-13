@@ -9,13 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import upbi.core.interfaces.Bean;
+import upbi.core.queries.ClienteNamedQuery;
 import upbi.core.queries.NamedProcedureDW;
 
 /**
@@ -23,13 +28,19 @@ import upbi.core.queries.NamedProcedureDW;
  * @author Felipe
  */
 @Data
-@NoArgsConstructor
 @Entity(name = "CLIENTES")
+@NoArgsConstructor
+@Table(name = "CLIENTES", indexes = {
+    @Index(name = "IDX_CODE_HASH", columnList = "codeHash")
+})
 @TableGenerator(name = "sq_cliente", allocationSize = 1, initialValue = 1)
 @EqualsAndHashCode(callSuper = false, of = {"id", "codCliente", "nome"})
 @NamedStoredProcedureQueries(value = {
     @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_CALCULAR_TOTAL_CLIENTES_ATIVOS, procedureName = "calculartotalclientesativos")
     , @NamedStoredProcedureQuery(name = NamedProcedureDW.PROCEDURE_RECUPERAR_ID_CODIGO_NOME_CLIENTES_ATIVOS, procedureName = "recuperanomecodigoclientesativos")
+})
+@NamedQueries(value = {
+    @NamedQuery(name = ClienteNamedQuery.CONSULTAR_CLIENTE_POR_HASH_CODE, query = "SELECT c FROM CLIENTES c WHERE c.codeHash = :codeHash")
 })
 public class Cliente implements Serializable, Bean {
 
