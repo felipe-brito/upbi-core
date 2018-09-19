@@ -57,22 +57,21 @@ public class GenericConvertEntity<T, E> {
 
                     } else {
 
+                        Object object = getValue(source, field);
+
                         if (isListType(field)) {
 
-                            Object elements = getValue(source, field);
                             List array = new ArrayList();
 
-                            if (elements != null) {
-                                iterable(elements, array);
+                            if (object != null) {
+                                iterable(object, array);
                                 value = array;
                             }
 
                         } else {
 
-                            Object obj = getValue(source, field);
-
-                            if (obj != null) {
-                                value = convertModel((T) obj, (Class<E>) obj.getClass());
+                            if (object != null) {
+                                value = convertModel((T) object, (Class<E>) object.getClass());
                             }
 
                         }
