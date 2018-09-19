@@ -21,8 +21,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import upbi.core.interfaces.Bean;
 import upbi.core.queries.NamedProcedureDW;
-import upbi.core.queries.NamedQueryCliente;
 import upbi.core.queries.NamedQueryProduto;
+import upbi.core.queries.ClienteNamedQuery;
 
 /**
  *
@@ -34,7 +34,7 @@ import upbi.core.queries.NamedQueryProduto;
 @TableGenerator(name = "venda_seq", allocationSize = 1, initialValue = 1)
 @EqualsAndHashCode(callSuper = false, of = {"id", "codVenda"})
 @NamedQueries(value = {
-    @NamedQuery(name = NamedQueryCliente.CLIENTES_ATENDIDOS_MES, query = "SELECT COUNT( DISTINCT v.cliente.codCliente ) FROM VENDAS v WHERE v.periodo.mes =:mes AND v.periodo.ano =:ano")
+    @NamedQuery(name = ClienteNamedQuery.CLIENTES_ATENDIDOS_MES, query = "SELECT COUNT( DISTINCT v.cliente.codCliente ) FROM VENDAS v WHERE v.periodo.mes =:mes AND v.periodo.ano =:ano")
     ,
     @NamedQuery(name = NamedQueryProduto.LISTAR_PRODUTOS_VENDIDOS_POR_SEMESTRE, query = "SELECT DISTINCT NEW upbi.app.web.business.entidades.vo.ProdutoCurvaABCVO(p.codProduto, p.descricao) FROM VENDAS v JOIN v.produto p JOIN v.periodo pe WHERE pe.ano=:ano AND pe.semestre=:semestre ORDER BY p.codProduto")
 })
